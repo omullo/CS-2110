@@ -2,9 +2,10 @@ package LinkedList;
 
 import java.util.NoSuchElementException;
 
-/* Name:
- * Netid:
- * What I thought about this assignment:
+/* Name: Frank Omullo
+ * Netid:foo6
+ * What I thought about this assignment:Initially appeared really easy, but once you get down to testing,
+										 		it proved more challenging than anticipated.
 
  *
  *
@@ -19,7 +20,7 @@ public class DList<E> {
 	 * Example: for 4 hours 30 minutes, use 4.50<br>
 	 * Example: for 5 hours, use 5 or 5.0
 	 */
-	public static double timeSpent = -1;
+	public static double timeSpent = 12;
 
 	/** First node of linked list (null if size is 0) */
 	private Node first;
@@ -122,6 +123,9 @@ public class DList<E> {
 		// You can't test this fully until ToDo 2, prepend, is written.
 		String res = "[";
 		Node n = last;
+		// invariant: res contains "[" followed by the String repr of values of nodes
+		// before node n (all of them if n = null),
+		// with ", " after each (except for the last value)
 		while (n != null) {
 			res = res + n.val;
 			n = n.prev;
@@ -141,14 +145,20 @@ public class DList<E> {
 		// method toStringR thoroughly before starting on the next
 		// method. These two methods must be correct in order to be
 		// able to write and test all the others.
-		if (size() == 0) {
-			last = first = new Node(null, v, null);
+		if (size == 0) {
 			size = size + 1;
-			return;
-		}
-		first = first.prev = new Node(null, v, first);
-		size = size + 1;
+			DList<E>.Node f = new Node(null, v, null);
+			first = f;
+			last = first;
 
+		} else {
+			Node next = first;
+			DList<E>.Node f = new Node(null, v, next);
+			next.prev = f;
+			first = f;
+			size = size + 1;
+
+		}
 	}
 
 	/**
@@ -157,13 +167,16 @@ public class DList<E> {
 	 */
 	public void append(E v) {
 		// TODO 3. This is the third method to write and test
-		if (size() == 0) {
-			prepend(v);
-			// return;
+		prepend(v);
+		if (size > 1) {
+			Node f = first;
+			first = first.next;
+			first.prev = null;
+			f.prev = last;
+			f.next = null;
+			last = f;
+			f.prev.next = f;
 		}
-		last = last.next = new Node(last, v, null);
-		size = size + 1;
-
 	}
 
 	/**
@@ -175,6 +188,7 @@ public class DList<E> {
 		// TODO 4. This method should take time proportional to min(h, size-h).
 		// For example, if h <= size/2, search from the beginning of the
 		// list, otherwise search from the end of the list.
+
 		assert 0 <= h && h < size;
 		if (h >= 0 && h < size) {
 			if (h <= size / 2) {
@@ -185,7 +199,7 @@ public class DList<E> {
 
 			}
 			Node target = last;
-			for (int n = size; n > h + 1; n--) {
+			for (int n = size; n > h + 1;) {
 				target = target.prev;
 				return target;
 			}
@@ -203,10 +217,30 @@ public class DList<E> {
 	public void delete(Node n) {
 		// TODO 5. Make sure this method takes constant time.
 		assert n != null;
-		n.prev.next = n.next();
-		n.next.prev = n.prev();
-		n = null;
-		size = size - 1;
+		if (size == 1) {
+			first = null;
+			last = null;
+			size = size - 1;
+		} else {
+			if (n.equals(first) || n.equals(last)) {
+				if (n.equals(first)) {
+
+					n.next.prev = null;
+					first = n.next;
+					size = size - 1;
+				}
+
+				if (n.equals(last)) {
+					n.prev.next = null;
+					last = n.prev;
+					size = size - 1;
+				}
+			} else {
+				n.next.prev = n.prev;
+				n.prev.next = n.next;
+				size = size - 1;
+			}
+		}
 
 	}
 
@@ -217,10 +251,16 @@ public class DList<E> {
 	 */
 	public void insertBefore(E v, Node n) {
 		// TODO 6. Make sure this method takes constant time.
-		assert n != null;
-		n.prev = new Node(n.prev, v, n);
-		n.prev.prev.next = n.prev;
-		size = size + 1;
+		prepend(v);
+		if (!n.equals(first.next)) {
+			Node u = first;
+			delete(u);
+			size = size + 1;
+			n.prev.next = u;
+			u.prev = n.prev;
+			n.prev = u;
+			u.next = n;
+		}
 
 	}
 
