@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="DListTest" project="a3" tests="5" started="5" failures="0" errors="0" ignored="0">
-  <testsuite name="LinkedList.DListTest" time="0.018" displayname="DListTest" uniqueid="[engine:junit-jupiter]/[class:LinkedList.DListTest]">
-    <testcase name="testgetnode" classname="LinkedList.DListTest" time="0.003" displayname="testgetnode()" uniqueid="[engine:junit-jupiter]/[class:LinkedList.DListTest]/[method:testgetnode()]"/>
-    <testcase name="testdelete" classname="LinkedList.DListTest" time="0.002" displayname="testdelete()" uniqueid="[engine:junit-jupiter]/[class:LinkedList.DListTest]/[method:testdelete()]"/>
-    <testcase name="testinsertbefore" classname="LinkedList.DListTest" time="0.001" displayname="testinsertbefore()" uniqueid="[engine:junit-jupiter]/[class:LinkedList.DListTest]/[method:testinsertbefore()]"/>
-    <testcase name="testappend" classname="LinkedList.DListTest" time="0.001" displayname="testappend()" uniqueid="[engine:junit-jupiter]/[class:LinkedList.DListTest]/[method:testappend()]"/>
-    <testcase name="testprependandtoStringR" classname="LinkedList.DListTest" time="0.011" displayname="testprependandtoStringR()" uniqueid="[engine:junit-jupiter]/[class:LinkedList.DListTest]/[method:testprependandtoStringR()]"/>
-  </testsuite>
-</testrun>
